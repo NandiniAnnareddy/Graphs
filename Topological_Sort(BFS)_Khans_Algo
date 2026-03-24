@@ -1,0 +1,28 @@
+# Khans algorithm
+from collections import deque
+class Solution:
+    def topoSort(self, V, edges):
+        adj = []
+        for i in range(0,V):
+            adj.append([])
+        for n,m in edges:
+            adj[n].append(m)
+        queue = deque([])
+        indegree = [0]*V
+        for i in adj:
+            for j in i:
+                indegree[j] += 1
+        for i in range(0,V):
+            if indegree[i] == 0:
+                queue.append(i)
+        ans = []
+        while(len(queue) > 0 ):
+            node = queue.popleft()
+            ans.append(node)
+            for k in adj[node]:
+                if indegree[k] > 0:
+                    indegree[k] -= 1
+                if indegree[k] == 0:
+                    queue.append(k)
+        return ans
+                
