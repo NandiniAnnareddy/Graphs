@@ -1,0 +1,14 @@
+class Solution:
+    def dfs(self, adj):
+        def dfs(node):
+            for i in adj[node]:
+                if visited[i] == 0:
+                    visited[i] = 1
+                    ans.append(i)
+                    dfs(i)
+        visited = [0]*len(adj)
+        ans = []
+        visited[0] = 1
+        ans.append(0)
+        dfs(0)
+        return ans
