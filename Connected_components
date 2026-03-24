@@ -1,0 +1,25 @@
+class Solution:
+    def getComponents(self, V, edges):
+        def dfs(node,inside):
+            for i in adj[node]:
+                if visited[i] == 0:
+                    visited[i] = 1
+                    inside.append(i)
+                    dfs(i, inside)
+            return inside
+        visited = [0]*V
+        adj = []
+        ans = []
+        for i in range(0,V):
+            adj.append([])
+        for n,m in edges:
+            adj[n].append(m)
+            adj[m].append(n)
+        for i in range(0,V):
+            if visited[i] == 0:
+                visited[i] = 1
+                inside = [i]
+                inside1 = dfs(i, inside)
+                inside1.sort()
+                ans.append(inside1)
+        return ans
