@@ -1,0 +1,16 @@
+from collections import deque
+class Solution:
+    def bfs(self, adj):
+        ans = []
+        visited = [0]*len(adj)
+        queue = deque([])
+        visited[0] = 1
+        queue.append(0)
+        while(len(queue) > 0):
+            node = queue.popleft()
+            ans.append(node)
+            for i in adj[node]:
+                if visited[i] == 0:
+                    visited[i] = 1
+                    queue.append(i)
+        return ans
