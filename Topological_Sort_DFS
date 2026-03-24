@@ -1,0 +1,22 @@
+class Solution:
+    def topoSort(self, V, edges):
+        def dfs(i):
+            for j in adj[i]:
+                if visited[j] == 0:
+                    visited[j] = 1
+                    dfs(j)
+                    stack.append(j)
+        adj = []
+        for i in range(0,V):
+            adj.append([])
+        for n,m in edges:
+            adj[n].append(m)
+        visited = [0]*V
+        stack = []
+        for i in range(0,V):
+            if visited[i] == 0:
+                visited[i] = 1
+                dfs(i)
+                stack.append(i)
+        return stack[::-1]
+        
