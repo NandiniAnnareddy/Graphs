@@ -1,0 +1,27 @@
+class Solution:
+    def isCyclic(self, V, edges):
+        adj = []
+        def dfs(node):
+            for i in adj[node]:
+                if visited[i] == 0:
+                    visited[i] = 1
+                    pathVisited[i] = 1
+                    if dfs(i):
+                        return True
+                elif pathVisited[i] == 1:
+                    return True
+            pathVisited[node] = 0 
+        for i in range(0,V):
+            adj.append([])
+        for n,m in edges:
+            adj[n].append(m)
+        visited = [0]*V
+        pathVisited = [0]*V
+        for i in range(0,V):
+            if visited[i] == 0:
+                visited[i] = 1
+                pathVisited[i] = 1
+                if dfs(i):
+                    return True
+        return False
+                
