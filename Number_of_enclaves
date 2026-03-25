@@ -1,0 +1,29 @@
+class Solution:
+    def numEnclaves(self, grid: List[List[int]]) -> int:
+        def dfs(cr,cc):
+            directions = [[cr-1,cc],[cr+1,cc],[cr,cc-1],[cr,cc+1]]
+            for i in directions:
+                nr,nc = i
+                if 0<=nr<rows and 0<=nc<cols and grid[nr][nc] == 1:
+                    grid[nr][nc] = 2
+                    dfs(nr,nc)
+        rows = len(grid)
+        cols = len(grid[0])
+        edges_rows = [0,rows-1]
+        edges_cols = [0,cols-1]
+        for i in edges_rows :
+            for j in range(cols):
+                if grid[i][j] == 1:
+                    grid[i][j] = 2
+                    dfs(i,j)
+        for i in edges_cols :
+            for j in range(rows):
+                if grid[j][i] == 1:
+                    grid[j][i] = 2
+                    dfs(j,i)
+        count = 0
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == 1:
+                    count += 1
+        return count
