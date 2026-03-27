@@ -1,0 +1,49 @@
+class Solution:
+    def findOrder(self, words):
+        n = len(words)
+        longest = 0
+        s = set()
+        for word in words:
+            for ch in word:
+                s.add(ch)
+        char_list = sorted(list(s))
+        char_to_idx = {}
+        i = 0
+        for ch in char_list:
+            char_to_idx[ch] = i
+            i += 1
+        longest = len(char_list)
+        adj = []
+        for i in range(0,longest):
+            adj.append([]) 
+        for i in range(0,n-1):
+            s1 = words[i]
+            s2 = words[i+1] 
+            if len(s1) > len(s2) and s1.startswith(s2):
+                return ""
+            for j in range(0,min(len(s1),len(s2))):
+                if(s1[j]!=s2[j]):
+                    adj[char_to_idx[s1[j]]].append(char_to_idx[s2[j]])
+                    break
+        inDegre = [0]*longest 
+        for i in range(0,longest):
+            for j in adj[i]:
+                inDegre[j]+=1 
+        q = deque([])
+        for i in range(0,longest):
+            if(inDegre[i] == 0):
+                q.append(i)
+        ans = []
+        while(q):
+            node = q.popleft()
+            ans.append(node) 
+            for i in adj[node]:
+                inDegre[i]-=1 
+                if(inDegre[i] == 0):
+                    q.append(i)
+        if(len(ans)!=longest):
+            return ""
+        result = ""
+        for num in ans:
+            result += char_list[num]
+        return result
