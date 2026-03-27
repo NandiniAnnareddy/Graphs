@@ -1,0 +1,20 @@
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        def dfs(cr,cc):
+            directions = [[cr-1,cc],[cr+1,cc],[cr,cc-1],[cr,cc+1]]
+            for i in directions:
+                nr,nc = i
+                if 0<=nr<rows and 0<=nc<cols and visited[nr][nc] == 0 and grid[nr][nc] == "1":
+                    visited[nr][nc] = 1
+                    dfs(nr,nc)
+        islands = 0
+        rows = len(grid)
+        cols = len(grid[0])
+        visited = [[0]*cols for _ in range(0,rows)]
+        for i in range(0,rows):
+            for j in range(0,cols):
+                if visited[i][j] == 0 and grid[i][j] == "1":
+                    visited[i][j] = 1
+                    dfs(i,j)
+                    islands += 1
+        return islands
