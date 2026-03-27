@@ -1,0 +1,23 @@
+from collections import deque
+class Solution:
+    def shortestPath(self, V, edges, src):
+        adj = []
+        for i in range(0,V):
+            adj.append([])
+        for n,m in edges:
+            adj[n].append(m)
+            adj[m].append(n)
+        distance = [float("inf")]*V
+        queue = deque([])
+        distance[src] = 0
+        queue.append(src)
+        while(len(queue) > 0):
+            node = queue.popleft()
+            for i in adj[node]:
+                if distance[node] + 1 < distance[i]:
+                    distance[i] = distance[node]+1
+                    queue.append(i)
+        for i in range(0,len(distance)):
+            if distance[i] == float("inf"):
+                distance[i] = -1
+        return distance
