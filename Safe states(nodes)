@@ -1,0 +1,33 @@
+from collections import deque
+class Solution:
+    def safeNodes(self, V, edges):
+        adj = []
+        visited = [0]*V
+        for i in range(0,V):
+            adj.append([])
+        for n,m in edges:
+            adj[m].append(n)
+        indegree = [0]*V
+        queue = deque([])
+        safe = [0]*V
+        for i in adj:
+            for j in i:
+                indegree[j] += 1
+        for i in range(0,len(indegree)):
+            if indegree[i] == 0:
+                queue.append(i)
+        while(len(queue)>0):
+            node = queue.popleft()
+            safe[node] = 1
+            for j in adj[node]:
+                indegree[j] -= 1
+                if indegree[j] == 0:
+                    queue.append(j)
+        ans = []
+        for i in range(0,len(safe)):
+            if safe[i] == 1:
+                ans.append(i)
+        return ans
+        
+            
+        
