@@ -1,0 +1,24 @@
+import heapq
+class Solution:
+    def dijkstra(self, V, edges, src):
+        distance = [float("inf")]*V
+        pq = []
+        adj = []
+        for i in range(0,V):
+            adj.append([])
+        for n,m,edgeWt in edges:
+            adj[n].append((m,edgeWt))
+            adj[m].append((n,edgeWt))
+        distance[src] = 0
+        heapq.heappush(pq,(0,src))
+        while(len(pq)):
+            dist, node = heapq.heappop(pq)
+            if dist > distance[node]:
+                continue
+            else:
+                for j,edgeWt in adj[node]:
+                    if dist+edgeWt < distance[j]:
+                        distance[j] = dist + edgeWt
+                        heapq.heappush(pq,(distance[j],j))
+        return distance
+                    
