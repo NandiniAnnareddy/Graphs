@@ -1,0 +1,19 @@
+from typing import List
+from collections import deque
+class Solution:
+    def minimumMultiplications(self, arr: List[int], start: int, end: int) -> int:
+        MOD = 100000
+        visited = [False] * MOD
+        queue = deque()
+        queue.append((start, 0))
+        visited[start] = True
+        while queue:
+            current, step = queue.popleft()
+            if current == end:
+                return step
+            for x in arr:
+                new_calc = (current * x) % MOD
+                if not visited[new_calc]:
+                    visited[new_calc] = True
+                    queue.append((new_calc, step + 1))
+        return -1
