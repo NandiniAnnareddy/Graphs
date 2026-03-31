@@ -1,0 +1,33 @@
+import heapq
+from typing import List
+class Solution:
+    def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
+        adj = [[] for _ in range(n)]
+        for u, v, wt in edges:
+            adj[u].append((v, wt))
+            adj[v].append((u, wt))
+        cities = [0] * n
+        for city in range(n):
+            distance = [float("inf")] * n
+            distance[city] = 0
+            pq = [(0, city)]
+            while pq:
+                dist, node = heapq.heappop(pq)
+                if dist > distance[node]:
+                    continue
+                for nei, wt in adj[node]:
+                    if dist + wt < distance[nei]:
+                        distance[nei] = dist + wt
+                        heapq.heappush(pq, (distance[nei], nei))
+            count = 0
+            for j in range(n):
+                if j != city and distance[j] <= distanceThreshold:
+                    count += 1
+            cities[city] = count
+        min_cities = float("inf")
+        result = -1
+        for i in range(n):
+            if cities[i] < min_cities or (cities[i] == min_cities and i > result):
+                min_cities = cities[i]
+                result = i
+        return result
